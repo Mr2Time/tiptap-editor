@@ -3,7 +3,8 @@ import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
-import React, {useState} from 'react'
+import React from 'react'
+import styled from 'styled-components'
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -19,7 +20,7 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <>
+    <div className='menu-bar'>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={
@@ -199,22 +200,20 @@ const MenuBar = ({ editor }) => {
       >
         redo
       </button>
-    </>
+    </div>
   )
 }
 
-export default ({setData, data, setContent}) => {
+export default ({setData, data, setContent, setPreview, preview}) => {
 
-    
     const handleData = (e) => {
-        
         if(e.target.name === "title"){
             setData({...data, title: e.target.value})
         }
         if(e.target.name === "tags"){
-            setData({...data, tags: [e.target.value]})
+            let tags = e.target.value.split(" ")
+            setData({...data, tags})
         }
-
     }
 
   const editor = useEditor({
@@ -259,7 +258,7 @@ export default ({setData, data, setContent}) => {
         — Mom
       </blockquote>
     `,
-    onUpdate: ({ editor }) => {
+    onBlur: ({ editor }) => {
         setContent({
             content: editor.getHTML(),
         })
@@ -267,15 +266,166 @@ export default ({setData, data, setContent}) => {
   })
 
   return (
-    <div>
+    <Container>
       <div>
-        <input type="text" name="title" onBlur={handleData} placeholder="title here..."/>
+      <div>
+        <input type="text" name="title" onBlur={handleData} placeholder="title here..." className="title-inp"/>
       </div>
+      <div>
       <MenuBar editor={editor} />
-      <EditorContent editor={editor}/>
-      <div>
-        <input type="text" name="tags" onBlur={handleData} placeholder="tags nature technology"/>
       </div>
-    </div>
+      <EditorContent editor={editor} className="content-editor"/>
+      <div>
+        <input type="text" name="tags" onBlur={handleData} placeholder="tags nature technology" className="tags"/>
+      </div>
+      <div>
+      <button onClick={() => {setPreview(!preview)}} className='preview-btn'>Preview</button>
+      </div>
+      </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  width: 75%;
+
+  .title-inp{
+      width: 100%;
+      height: 1.5rem;
+      margin: 1rem 0;
+      padding: 0.2rem;
+      border: none;
+      border-bottom: 1px solid #000;
+      outline: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease-in-out;
+      &:focus{
+          border-bottom: 1px solid #11ff09;
+      }      
+}
+
+  .menu-bar{
+    width: 100%;
+    border: 1px solid #000;
+    padding: 0.2rem;
+
+    button{
+    color: #000;
+    outline: none;
+    padding: 0.2rem;
+    border: 1px solid #000;
+    background: none;
+    margin: 0.2rem 0.2rem;
+    cursor: pointer;
+    font-family: "JetBrainsMono", monospace;
+    font-size: 1rem;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+    }
+  }
+
+  .content-editor{
+      width: 100%;
+      border:none;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      border-left: 1px solid #000;
+      padding: 0.2rem;
+
+  }
+
+  .tags{
+      width: 100%;
+      height: 1.5rem;
+      margin: 1rem 0;
+      padding: 0.2rem;
+      border: none;
+      border-bottom: 1px solid #000;
+      outline: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease-in-out;
+
+      &:focus{
+          border-bottom: 1px solid #00fbff;
+      }
+  }
+
+  .preview-btn{
+      border: none;
+      outline: none;
+      padding: 0.2rem;
+      background: #76f329a4;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+  }
+ 
+
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  outline: none;
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
+  }
+}
+`;
+

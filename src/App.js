@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Preview from './Preview';
 import Editor from './Editor';
+import GlobalStyles from './GlobalStyles';
 
 function App() {
 
@@ -13,13 +14,14 @@ function App() {
     content: "",
   })
 
-  console.log(data)
-  console.log(content)
+  const [preview, setPreview] = useState(false)
+
 
   return (
     <div className="App">
-      <Editor setData={setData} data={data} setContent={setContent}/>
-      <Preview data={data} content={content}/>
+      <GlobalStyles />
+      <Editor setData={setData} data={data} setContent={setContent} setPreview={setPreview} preview={preview}/>
+      {preview && <Preview data={data} content={content}/>}
     </div>
   );
 }
