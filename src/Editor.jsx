@@ -4,6 +4,7 @@ import Image from '@tiptap/extension-image'
 import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import React from 'react'
+import Preview from './Preview';
 import styled from 'styled-components'
 
 const MenuBar = ({ editor }) => {
@@ -265,34 +266,35 @@ export default ({setData, data, setContent, setPreview, preview}) => {
     }
   })
 
+
   return (
     <Container>
       <div>
       <div>
         <input type="text" name="title" onBlur={handleData} placeholder="title here..." className="title-inp"/>
       </div>
-      <div>
       <MenuBar editor={editor} />
-      </div>
       <EditorContent editor={editor} className="content-editor"/>
       <div>
         <input type="text" name="tags" onBlur={handleData} placeholder="tags nature technology" className="tags"/>
       </div>
       <div>
-      <button onClick={() => {setPreview(!preview)}} className='preview-btn'>Preview</button>
+        <button className="preview-btn" onClick={() => {
+          setPreview(!preview)
+        }}>Preview</button>
       </div>
       </div>
-    </Container>
+    </Container> 
   )
 }
 
 const Container = styled.div`
+
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 2rem auto;
   width: 75%;
-
   .title-inp{
       width: 100%;
       height: 1.5rem;
@@ -308,13 +310,12 @@ const Container = styled.div`
           border-bottom: 1px solid #11ff09;
       }      
 }
-
   .menu-bar{
     width: 100%;
     border: 1px solid #000;
     padding: 0.2rem;
 
-    button{
+    button {
     color: #000;
     outline: none;
     padding: 0.2rem;
@@ -330,7 +331,6 @@ const Container = styled.div`
     }
     }
   }
-
   .content-editor{
       width: 100%;
       border:none;
@@ -338,9 +338,7 @@ const Container = styled.div`
       border-bottom: 1px solid #000;
       border-left: 1px solid #000;
       padding: 0.2rem;
-
   }
-
   .tags{
       width: 100%;
       height: 1.5rem;
@@ -352,12 +350,10 @@ const Container = styled.div`
       font-weight: 600;
       font-size: 1.2rem;
       transition: all 0.3s ease-in-out;
-
       &:focus{
           border-bottom: 1px solid #00fbff;
       }
   }
-
   .preview-btn{
       border: none;
       outline: none;
@@ -367,9 +363,8 @@ const Container = styled.div`
       font-weight: 600;
       cursor: pointer;
   }
- 
 
-/* Basic editor styles */
+  /* Basic editor styles */
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
@@ -427,5 +422,6 @@ const Container = styled.div`
     margin: 2rem 0;
   }
 }
-`;
+ 
 
+`;
