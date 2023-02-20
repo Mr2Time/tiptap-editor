@@ -4,7 +4,6 @@ import Image from '@tiptap/extension-image'
 import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import React from 'react'
-import Preview from './Preview';
 import styled from 'styled-components'
 
 const MenuBar = ({ editor }) => {
@@ -407,9 +406,14 @@ const Container = styled.div`
   }
 
   img {
-    max-width: 100%;
-    height: auto;
-  }
+      display: block;
+      width: 85%;
+      height: 85%;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 0.5rem;
+      object-fit: cover;
+    }
 
   blockquote {
     padding-left: 1rem;

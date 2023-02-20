@@ -22,7 +22,7 @@ function App() {
     <div className="App">
       <GlobalStyles />
       <Editor setData={setData} data={data} setContent={setContent} setPreview={setPreview} preview={preview}/>
-      {preview && <Preview data={data} content={content} />}
+      {preview && <Preview data={data} content={content}/>}
     </div>
   );
 }
